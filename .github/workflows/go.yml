@@ -27,5 +27,9 @@ jobs:
           go install golang.org/x/mobile/cmd/gomobile@latest
           env PATH=$PATH:~/go/bin gomobile init
 
+      - name: Install NDK
+        run: |
+          sdkmanager "ndk-bundle"
+
       - name: arm-v7a gomobile build
         run: env PATH=$PATH:~/go/bin gomobile bind -target=android -javapkg=org.rclone ../
