@@ -28,4 +28,4 @@ jobs:
           env PATH=$PATH:~/go/bin gomobile init
 
       - name: arm-v7a gomobile build
-        run: env PATH=$PATH:~/go/bin gomobile bind -v -target=android/arm -javapkg=org.rclone -X ../
+        run: env PATH=$PATH:~/go/bin gomobile bind -target=android -javapkg=org.rclone ../
