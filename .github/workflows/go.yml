@@ -47,3 +47,4 @@ jobs:
         env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
           GO111MODULE: off
+
