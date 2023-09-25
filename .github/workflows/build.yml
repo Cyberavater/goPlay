@@ -44,6 +44,9 @@ jobs:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
           GO111MODULE: off
 
+      # Add this step to list files in the current directory.
+      - name: List files
+        run: ls -la
 
       # Add this step to upload the generated AAR file as an artifact.
       - name: Upload AAR artifact
