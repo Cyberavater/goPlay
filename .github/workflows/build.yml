@@ -35,11 +35,15 @@ jobs:
           add-to-path: false
 
       - name: Gomobile build
+        id: gomobile_build  # Add an id to this step so you can refer to its outputs in later steps.
         run: |
+          AAR_FILE_NAME=my_custom_name.aar  # Set the AAR file name to a variable.
+
           go get golang.org/x/mobile/bind
           go get -d github.com/Cyberavater/goPlay
-          gomobile bind -target=android -javapkg=org.rclone github.com/Cyberavater/goPlay
-        #        run: gomobile bind -target=android -javapkg=org.rclone github.com/rclone/rclone/librclone/gomobile
+          gomobile bind -target=android -javapkg=org.rclone -o $AAR_FILE_NAME github.com/Cyberavater/goPlay
+          
+          echo "::set-output name=aar_file::$AAR_FILE_NAME"
         env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
           GO111MODULE: off
@@ -53,4 +57,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: my-aar-file
-          path: goPlay.aar  # Replace this with the path to your
+          path: ${{ steps.gomobile_build.outputs.aar_file }}  # Use the output from the Gomobile build step.
