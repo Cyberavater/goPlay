@@ -43,6 +43,7 @@ jobs:
 
       - name: Gomobile build
         run: |
+          go get golang.org/x/mobile/bind
           go get -d github.com/Cyberavater/goPlay
           gomobile bind -target=android -javapkg=org.rclone github.com/Cyberavater/goPlay
         #        run: gomobile bind -target=android -javapkg=org.rclone github.com/rclone/rclone/librclone/gomobile
