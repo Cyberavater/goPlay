@@ -40,8 +40,8 @@ jobs:
       #        run: sdkmanager "ndk-bundle"
       - name: Setup Android NDK
         uses: nttld/setup-ndk@v1
-#        with:
-#          ndk-version: 'r25c'
+        with:
+          ndk-version: 'r25c'
 
       - name: Gomobile build
         run: env PATH=$PATH:~/go/bin gomobile bind -target=android -javapkg=org.rclone github.com/Cyberavater/goPlay
