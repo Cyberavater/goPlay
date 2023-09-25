@@ -30,10 +30,12 @@ jobs:
       - name: Setup Android NDK
         uses: nttld/setup-ndk@v1
         with:
-          ndk-version: 'r25c'
+          ndk-version: r25c
+          add-to-path: false
 
       - name: Gomobile build
         #        run: env PATH=$PATH:~/go/bin gomobile bind -target=android -javapkg=org.rclone github.com/Cyberavater/goPlay
         run: env PATH=$PATH:~/go/bin gomobile bind -target=android -javapkg=org.rclone github.com/rclone/rclone/librclone/gomobile
         env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+          GO111MODULE: off
