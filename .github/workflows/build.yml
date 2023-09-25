@@ -13,6 +13,8 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    env: # Set environment variables for the entire job here.
+      AAR_FILE_NAME: my_custom_name.aar
     steps:
       - uses: actions/checkout@v3
 
@@ -26,7 +28,8 @@ jobs:
         run: |
           go install golang.org/x/mobile/cmd/gobind@latest
           go install golang.org/x/mobile/cmd/gomobile@latest
-          env PATH=$PATH:~/go/bin gomobile init
+          #          env PATH=$PATH:~/go/bin 
+          gomobile init
 
       - name: Setup Android NDK
         uses: nttld/setup-ndk@v1
@@ -35,26 +38,21 @@ jobs:
           add-to-path: false
 
       - name: Gomobile build
-        id: gomobile_build  # Add an id to this step so you can refer to its outputs in later steps.
+        id: gomobile_build  # Add an id to this step, so you can refer to its outputs in later steps.
         run: |
-          AAR_FILE_NAME=my_custom_name.aar  # Set the AAR file name to a variable.
-
+          
           go get golang.org/x/mobile/bind
           go get -d github.com/Cyberavater/goPlay
           gomobile bind -target=android -javapkg=org.rclone -o $AAR_FILE_NAME github.com/Cyberavater/goPlay
-          
-          echo "::set-output name=aar_file::$AAR_FILE_NAME"
+
         env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
           GO111MODULE: off
 
-      # Add this step to list files in the current directory.
-      - name: List files
-        run: ls -la
 
       # Add this step to upload the generated AAR file as an artifact.
       - name: Upload AAR artifact
         uses: actions/upload-artifact@v2
         with:
           name: my-aar-file
-          path: ${{ steps.gomobile_build.outputs.aar_file }}  # Use the output from the Gomobile build step.
+          path: ${{ env.AAR_FILE_NAME }}  # Use the environment variable here.
