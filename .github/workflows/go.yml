@@ -42,8 +42,10 @@ jobs:
           add-to-path: false
 
       - name: Gomobile build
-        #        run: env PATH=$PATH:~/go/bin gomobile bind -target=android -javapkg=org.rclone github.com/Cyberavater/goPlay
-        run: env PATH=$PATH:~/go/bin gomobile bind -target=android -javapkg=org.rclone github.com/rclone/rclone/librclone/gomobile
+        run: |
+          go get -d github.com/Cyberavater/goPlay
+          gomobile bind -target=android -javapkg=org.rclone github.com/Cyberavater/goPlay
+        #        run: gomobile bind -target=android -javapkg=org.rclone github.com/rclone/rclone/librclone/gomobile
         env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
           GO111MODULE: off
